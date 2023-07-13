@@ -22,7 +22,7 @@ RegisterCommand('+Megaphoneaga', function()
   if not PlayerData.job then PlayerData = QBCore.Functions.GetPlayerData() end
   if PlayerData.job.name == "police" and CheckPlayer() then
     exports["pma-voice"]:overrideProximityRange(60.0, true)
-    TriggerServerEvent('megaphone:applySubmix', true)
+    TriggerServerEvent('torpak-policemegaphone:applySubmix', true)
     QBCore.Functions.Notify('Megafon Devrede', 'success')
   end
 end, false)
@@ -49,7 +49,7 @@ CreateThread(function()
     AddAudioSubmixOutput(filter, 0)
 end)
 
-RegisterNetEvent('megaphone:updateSubmixStatus', function(state, source)
+RegisterNetEvent('torpak-policemegaphone:updateSubmixStatus', function(state, source)
     if state then
         MumbleSetSubmixForServerId(source, filter)
     else
@@ -72,13 +72,13 @@ RegisterCommand('-Megaphoneaga', function()
   if PlayerData.job.name == "police" and CheckPlayer() then
     exports["pma-voice"]:clearProximityOverride()
     QBCore.Functions.Notify('Megafon Devre Dışı', 'error')
-    TriggerServerEvent('megaphone:applySubmix', false)
+    TriggerServerEvent('torpak-policemegaphone:applySubmix', false)
   end
 end, false)
 
 RegisterKeyMapping('+Megaphoneaga', 'Megafon', 'keyboard', 'LSHIFT')
 
-RegisterNetEvent('megaphone:updateSubmixStatus', function(state, source)
+RegisterNetEvent('torpak-policemegaphone:updateSubmixStatus', function(state, source)
   if state then
       MumbleSetSubmixForServerId(source, filter)
   else
