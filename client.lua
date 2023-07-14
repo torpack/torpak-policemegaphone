@@ -85,3 +85,36 @@ RegisterNetEvent('torpak-policemegaphone:updateSubmixStatus', function(state, so
       MumbleSetSubmixForServerId(source, -1)
   end
 end)
+
+
+local elinde = false
+
+RegisterNetEvent("torpak-policemegaphone:useitem", function()
+  print(elinde)
+ if elinde == false then
+    if not CheckPlayer() then
+      -- animasyon ve diger checkler
+      elinde = true
+      QBCore.Functions.RequestAnimDict("molly@megaphone")
+      megafon = CreateObject("prop_megaphone_01")
+      oyuncu = PlayerPedId()
+      print(megafon)
+      TaskPlayAnim(PlayerPedId(), "molly@megaphone", "megaphone_clip", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
+      AttachEntityToEntity(megafon, PlayerPedId(), 90, 0.046622821237634, 0.052334458193083, 0.0034033521122986, -66.137084131984, -26.357891763284, -23.033587868007, true, true, false, true, 1, true)
+      --- megafon ses arttirma olayi
+      exports["pma-voice"]:overrideProximityRange(60.0, true)
+      TriggerServerEvent('torpak-policemegaphone:applySubmix', true)
+      QBCore.Functions.Notify('Megafon Devrede', 'success')
+    else
+      QBCore.Functions.Notify('Polis Aracinda Zaten Megafon Var!', 'error')
+    end
+  else
+    --- biraktigi yer 
+    exports["pma-voice"]:clearProximityOverride()
+    QBCore.Functions.Notify('Megafon Devre Dışı', 'error')
+    TriggerServerEvent('torpak-policemegaphone:applySubmix', false)
+    DeleteObject(megafon)
+    elinde = false
+    StopAnimTask(PlayerPedId(), 'molly@megaphone', 'megaphone_clip', 1.0)
+  end
+end)
