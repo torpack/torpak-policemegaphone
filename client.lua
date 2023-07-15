@@ -96,9 +96,9 @@ RegisterNetEvent("torpak-policemegaphone:useitem", function()
       -- animasyon ve diger checkler
       elinde = true
       QBCore.Functions.RequestAnimDict("molly@megaphone")
-      megafon = CreateObject("prop_megaphone_01")
+      oyuncucords = GetEntityCoords(PlayerPedId())
+      megafon = CreateObject("prop_megaphone_01", oyuncucords.x, oyuncucords.y, oyuncucords.z, true, true, true)
       oyuncu = PlayerPedId()
-      print(megafon)
       TaskPlayAnim(PlayerPedId(), "molly@megaphone", "megaphone_clip", 8.0, 1.0, -1, 49, 0, 0, 0, 0)
       AttachEntityToEntity(megafon, PlayerPedId(), 90, 0.046622821237634, 0.052334458193083, 0.0034033521122986, -66.137084131984, -26.357891763284, -23.033587868007, true, true, false, true, 1, true)
       --- megafon ses arttirma olayi
