@@ -1,5 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerData = {}
+local cachedseviye = nil
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
   PlayerData = val
@@ -21,7 +22,10 @@ end
 RegisterCommand('+Megaphoneaga', function()
   if not PlayerData.job then PlayerData = QBCore.Functions.GetPlayerData() end
   if PlayerData.job.name == "police" and CheckPlayer() then
+    cachedseviye = MumbleGetTalkerProximity()
+    Wait(20)
     exports["pma-voice"]:overrideProximityRange(60.0, true)
+    MumbleSetTalkerProximity(60.0, true)
     TriggerServerEvent('torpak-policemegaphone:applySubmix', true)
     QBCore.Functions.Notify('Megafon Devrede', 'success')
   end
@@ -73,6 +77,7 @@ RegisterCommand('-Megaphoneaga', function()
     exports["pma-voice"]:clearProximityOverride()
     QBCore.Functions.Notify('Megafon Devre Dışı', 'error')
     TriggerServerEvent('torpak-policemegaphone:applySubmix', false)
+      MumbleSetTalkerProximity(cachedseviye + 0.0, true)
   end
 end, false)
 
@@ -90,7 +95,7 @@ end)
 local elinde = false
 
 RegisterNetEvent("torpak-policemegaphone:useitem", function()
-  print(elinde)
+cachedseviye = MumbleGetTalkerProximity()
  if elinde == false then
     if not CheckPlayer() then
       -- animasyon ve diger checkler
